@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import apiClient from "../apiClient";
+import apiClient from "../../apiClient";
 
 function EmployeeDashboard() {
   const [reports, setReports] = useState([]);
@@ -11,7 +11,7 @@ function EmployeeDashboard() {
   useEffect(() => {
     const fetchReports = async () => {
       try {
-        // This assumes your API returns reports for the logged-in user
+   
         const response = await apiClient.get("/api/reports", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,

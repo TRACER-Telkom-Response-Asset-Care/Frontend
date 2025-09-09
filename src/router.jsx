@@ -2,9 +2,9 @@ import { createBrowserRouter } from "react-router-dom";
 
 // Import all the pages needed for the employee flow
 import LoginPage from "./pages/Login";
-import EmployeeDashboard from "./pages/EmployeeDashboard";
-import CreateReportPage from "./pages/CreateReportPage";
-import ReportDetailPage from "./pages/ReportDetailPage";
+import EmployeeDashboard from "./pages/Employee/EmployeeDashboard";
+import CreateReportPage from "./pages/Employee/CreateReportPage";
+import ReportDetailPage from "./pages/Employee/ReportDetailPage";
 
 const router = createBrowserRouter([
     {

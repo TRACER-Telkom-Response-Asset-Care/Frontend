@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import apiClient from "../apiClient";
+import apiClient from "../../apiClient";
 
 function ReportDetailPage() {
   const { reportId } = useParams(); // Gets the ID from the URL (e.g., /report/123)
