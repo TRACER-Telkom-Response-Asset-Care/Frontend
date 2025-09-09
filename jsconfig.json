@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    },
+    "allowJs": true, // <-- Pilihan penting untuk proyek JS
+    "jsx": "react-jsx" // Opsi tambahan yang bagus untuk React
+  }
+}
