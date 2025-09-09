@@ -47,15 +47,9 @@ function LoginPage() {
   return (
     <div className="min-h-screen flex flex-col bg-neutral-50 text-neutral-900">
       <header className="px-4 py-3 bg-white/80 backdrop-blur border-b border-neutral-200">
-        <div className="max-w-md mx-auto flex items-center gap-3">
-          <div className="size-9 rounded-xl flex items-center justify-center">
-            <img src="/TRACERLOGO.png" alt="Tracer Logo" />
-          </div>
-          <div className="flex-1">
-            <h1 className="text-base font-semibold leading-tight">
-              Pelaporan & Diagnosis Aset
-            </h1>
-            <p className="text-xs text-neutral-500">PT Telkom • Mobile</p>
+        <div className="flex items-center justify-center  gap-3">
+          <div className="w-[240px] rounded-xl flex items-center justify-center">
+            <img src="src\assets\TRACERLOGO.png" alt="Tracer Logo" />
           </div>
         </div>
       </header>
@@ -64,9 +58,7 @@ function LoginPage() {
         <section className="max-w-md mx-auto p-4">
           <div className="pt-6 text-center">
             <h2 className="text-2xl font-bold">Masuk</h2>
-            <p className="text-sm text-neutral-500">
-              Gunakan akun perusahaan Anda
-            </p>
+           
           </div>
 
           {alert.message && (
@@ -83,15 +75,15 @@ function LoginPage() {
 
           <form
             onSubmit={handleSubmit}
-            className="mt-4 bg-white rounded-2xl p-4 shadow-lg space-y-4"
+            className="mt-4 bg-white rounded-2xl p-8 shadow-lg space-y-8"
             noValidate
           >
             <div>
               <label
                 htmlFor="employeeid"
-                className="block text-sm font-medium mb-1"
+                className="block text-sm font-medium mb-2"
               >
-                EmployeeID
+                ID Pekerja
               </label>
               <input
                 id="employeeid"
@@ -99,7 +91,7 @@ function LoginPage() {
                 type="text"
                 inputMode="employeeid"
                 autoComplete="username"
-                placeholder="nama@telkom.co.id"
+                placeholder="ID Pekerja"
                 required
                 value={employeeID}
                 onChange={(e) => setEmployeeID(e.target.value)}
@@ -115,7 +107,7 @@ function LoginPage() {
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium mb-1"
+                className="block text-sm font-medium mb-2"
               >
                 Kata sandi
               </label>
@@ -174,18 +166,7 @@ function LoginPage() {
               {isLoading ? "Memproses..." : "Masuk"}
             </button>
 
-            <div class="flex items-center gap-3">
-              <div class="flex-1 h-px bg-neutral-200"></div>
-              <span class="text-xs text-neutral-500">atau</span>
-              <div class="flex-1 h-px bg-neutral-200"></div>
-            </div>
-
-            <button
-              type="button"
-              class="w-full bg-white border border-neutral-200 text-neutral-800 font-medium py-2 rounded-xl active:scale-[.99]"
-            >
-              Masuk dengan SSO
-            </button>
+            
           </form>
 
           <p className="mt-6 text-[11px] text-neutral-500 text-center">
