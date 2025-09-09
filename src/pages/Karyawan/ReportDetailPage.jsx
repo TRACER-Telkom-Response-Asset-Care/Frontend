@@ -1,111 +1,172 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import apiClient from "../../apiClient";
+import axios from "axios";
+
+// Definisikan base URL untuk gambar langsung di file ini.
+const IMAGE_BASE_URL = import.meta.env.VITE_API_BASE_URL.replace("/api", "");
+
+// --- Komponen UI untuk Loading dan Error ---
+
+const LoadingSpinner = () => (
+    <div className="flex justify-center items-center p-10">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
+        <p className="ml-4 text-neutral-600">Memuat data laporan...</p>
+    </div>
+);
+
+const ErrorDisplay = ({ message, instructions }) => (
+    <div className="text-center p-10 bg-red-50 rounded-2xl shadow-sm">
+        <p className="font-semibold text-red-700">Terjadi Kesalahan</p>
+        <p className="text-sm text-red-600 mt-1">{message}</p>
+        <p className="text-xs text-neutral-500 mt-2">{instructions}</p>
+        <Link to="/karyawandashboard" className="mt-4 inline-block bg-red-600 text-white font-medium py-2 px-4 rounded-xl text-sm hover:bg-red-700 transition-colors">
+            Kembali ke Dasbor
+        </Link>
+    </div>
+);
+
+// --- Komponen Utama Halaman Detail Laporan ---
 
 function ReportDetailPage() {
-  const { reportId } = useParams(); // Gets the ID from the URL (e.g., /report/123)
-  const [report, setReport] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+    const { reportId } = useParams();
+    const [report, setReport] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState({ message: "", instructions: "" });
 
-  useEffect(() => {
-    const fetchReportDetails = async () => {
-      try {
-        const response = await apiClient.get(`/api/reports/${reportId}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-          },
-        });
-        setReport(response.data);
-      } catch (err) {
-        setError("Gagal memuat detail laporan. Mungkin laporan tidak ditemukan.");
-        console.error(err);
-      } finally {
-        setIsLoading(false);
-      }
+    useEffect(() => {
+        const fetchReportDetails = async () => {
+            setIsLoading(true);
+            setError({ message: "", instructions: "" }); // Reset error state on new fetch
+            try {
+                const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/reports/${reportId}`, {
+                    headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` },
+                });
+                setReport(response.data);
+            } catch (err) {
+                console.error("Gagal mengambil detail laporan:", err); // Log error lengkap untuk debugging
+                
+                // --- PENANGANAN ERROR YANG LEBIH BAIK ---
+                if (err.response) {
+                    // Server merespons dengan status error (4xx atau 5xx)
+                    if (err.response.status === 404) {
+                        setError({ message: "Laporan ini tidak dapat ditemukan.", instructions: "Pastikan URL benar atau laporan belum dihapus." });
+                    } else if (err.response.status === 403) {
+                        setError({ message: "Anda tidak memiliki izin untuk melihat laporan ini.", instructions: "Laporan ini mungkin milik pengguna lain." });
+                    } else if (err.response.status === 401) {
+                        setError({ message: "Sesi Anda telah berakhir.", instructions: "Silakan logout dan login kembali untuk melanjutkan." });
+                    } else {
+                        setError({ message: "Terjadi kesalahan pada server.", instructions: "Tim kami telah diberitahu. Silakan coba lagi nanti." });
+                    }
+                } else if (err.request) {
+                    // Permintaan dikirim tetapi tidak ada respons
+                    setError({ message: "Tidak dapat terhubung ke server.", instructions: "Periksa koneksi internet Anda dan coba lagi." });
+                } else {
+                    // Terjadi kesalahan lain saat menyiapkan permintaan
+                    setError({ message: "Terjadi kesalahan yang tidak terduga.", instructions: "Silakan muat ulang halaman." });
+                }
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        fetchReportDetails();
+    }, [reportId]);
+
+    const getStatusChip = (status) => {
+        switch (status?.toLowerCase()) {
+            case "open": return "bg-blue-100 text-blue-800 ring-blue-600/20";
+            case "in_progress": return "bg-yellow-100 text-yellow-800 ring-yellow-600/20";
+            case "closed": return "bg-green-100 text-green-800 ring-green-600/20";
+            default: return "bg-gray-100 text-gray-800 ring-gray-600/20";
+        }
     };
 
-    fetchReportDetails();
-  }, [reportId]);
-  
-  const getStatusChip = (status) => {
-    // This function can be moved to a shared utils file
-    switch (status?.toLowerCase()) {
-      case "terkirim": return "bg-blue-100 text-blue-800";
-      case "diproses": case "dalam pengerjaan": return "bg-yellow-100 text-yellow-800";
-      case "selesai": return "bg-green-100 text-green-800";
-      case "ditolak": return "bg-red-100 text-red-800";
-      default: return "bg-gray-100 text-gray-800";
-    }
-  };
+    const aiResponse = report?.responses?.[0]?.response || "Analisis AI sedang diproses atau belum tersedia.";
 
-  if (isLoading) return <p className="text-center mt-10">Memuat detail laporan...</p>;
-  if (error) return <p className="text-center mt-10 text-red-600">{error}</p>;
-  if (!report) return <p className="text-center mt-10">Laporan tidak ditemukan.</p>;
+    return (
+        <div className="min-h-screen bg-neutral-100">
+            <header className="px-4 py-3 bg-white/80 backdrop-blur border-b border-neutral-200 sticky top-0 z-10">
+                <div className="max-w-5xl mx-auto">
+                    <Link to="/karyawandashboard" className="flex items-center gap-2 text-sm font-medium text-red-600 hover:underline">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path fillRule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" /></svg>
+                        Kembali ke Dasbor
+                    </Link>
+                </div>
+            </header>
+            <main className="max-w-5xl mx-auto p-4">
+                {isLoading ? (
+                    <LoadingSpinner />
+                ) : error.message ? (
+                    <ErrorDisplay message={error.message} instructions={error.instructions} />
+                ) : !report ? (
+                    <ErrorDisplay message="Laporan tidak dapat ditemukan." />
+                ) : (
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        {/* Konten Utama */}
+                        <div className="lg:col-span-2 bg-white rounded-2xl shadow-lg p-6 space-y-6">
+                           {/* ... (sisa kode tampilan tetap sama) ... */}
+                            <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
+                                <div>
+                                    <h1 className="text-2xl font-bold text-neutral-800">Laporan {report.report_code}</h1>
+                                    <p className="text-sm text-neutral-500">
+                                        Diajukan pada {new Date(report.created_at).toLocaleString("id-ID", { dateStyle: 'long', timeStyle: 'short' })}
+                                    </p>
+                                </div>
+                                <span className={`capitalize px-3 py-1 text-xs font-semibold rounded-full ring-1 ring-inset ${getStatusChip(report.status)}`}>
+                                    {report.status.replace("_", " ")}
+                                </span>
+                            </div>
 
-  return (
-    <div className="min-h-screen bg-neutral-50">
-      <header className="px-4 py-3 bg-white/80 backdrop-blur border-b border-neutral-200">
-        <div className="max-w-4xl mx-auto flex items-center gap-3">
-          <Link to="/karyawandashboard" className="text-red-600 hover:underline text-sm">← Kembali ke Dasbor</Link>
+                            <div className="border-t border-neutral-200 pt-4 space-y-2">
+                                <h3 className="text-base font-semibold text-neutral-700">Informasi Aset</h3>
+                                <div className="text-sm grid grid-cols-2 gap-x-4 gap-y-1">
+                                    <span className="text-neutral-500">Nama Aset:</span> <span className="text-neutral-800 font-medium">{report.asset.name}</span>
+                                    <span className="text-neutral-500">Kode Aset:</span> <span className="text-neutral-800">{report.asset.asset_code}</span>
+                                    <span className="text-neutral-500">Lokasi:</span> <span className="text-neutral-800">{report.asset.location}</span>
+                                </div>
+                            </div>
+                            
+                            <div className="border-t border-neutral-200 pt-4">
+                                <h3 className="text-base font-semibold text-neutral-700 mb-2">Deskripsi Kerusakan</h3>
+                                <p className="text-sm text-neutral-700 whitespace-pre-wrap bg-neutral-50 p-3 rounded-lg">{report.description}</p>
+                            </div>
+
+                            {report.report_media?.length > 0 && (
+                                <div className="border-t border-neutral-200 pt-4">
+                                    <h3 className="text-base font-semibold text-neutral-700 mb-2">Bukti Media</h3>
+                                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                                        {report.report_media.map((file) => (
+                                            <a key={file.id} href={`${IMAGE_BASE_URL}/storage/${file.file_path}`} target="_blank" rel="noopener noreferrer" className="relative group">
+                                                <img 
+                                                    src={`${IMAGE_BASE_URL}/storage/${file.file_path}`} 
+                                                    alt={`Bukti laporan`} 
+                                                    className="rounded-lg object-cover w-full h-32 border border-neutral-200"
+                                                    onError={(e) => { e.target.onerror = null; e.target.src='https://placehold.co/300x200/EEE/31343C?text=Gagal\\nMuat'; }}
+                                                />
+                                                <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded-lg">
+                                                   <p className="text-white text-xs text-center">Lihat Media</p>
+                                                </div>
+                                            </a>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                        {/* Sidebar Analisis AI */}
+                        <div className="bg-white rounded-2xl shadow-lg p-6 space-y-4 h-fit">
+                           <div className="flex items-center gap-3 border-b border-neutral-200 pb-2">
+                                <span className="text-2xl">🤖</span>
+                                <h2 className="text-lg font-bold text-neutral-800">Hasil Analisis AI</h2>
+                           </div>
+                           <div>
+                              <p className="text-sm text-neutral-600 whitespace-pre-wrap">{aiResponse}</p>
+                           </div>
+                        </div>
+                    </div>
+                )}
+            </main>
         </div>
-      </header>
-
-      <main className="max-w-4xl mx-auto p-4 grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Left Column: Report Details */}
-        <div className="md:col-span-2 bg-white rounded-2xl shadow-lg p-6 space-y-6">
-          <div>
-            <div className="flex justify-between items-start">
-              <div>
-                <h1 className="text-2xl font-bold">Detail Laporan #{report.id}</h1>
-                <p className="text-sm text-neutral-500">Diajukan pada {new Date(report.created_at).toLocaleString()}</p>
-              </div>
-              <span className={`px-3 py-1 text-sm font-semibold rounded-full ${getStatusChip(report.status)}`}>
-                {report.status}
-              </span>
-            </div>
-          </div>
-          <div className="border-t border-neutral-200 pt-4">
-            <h3 className="font-semibold mb-2">Informasi Aset</h3>
-            <p><span className="text-neutral-500">Jenis Aset:</span> {report.item_type}</p>
-          </div>
-          <div className="border-t border-neutral-200 pt-4">
-            <h3 className="font-semibold mb-2">Deskripsi Kerusakan</h3>
-            <p className="text-neutral-700 whitespace-pre-wrap">{report.description}</p>
-          </div>
-           {report.media && report.media.length > 0 && (
-            <div className="border-t border-neutral-200 pt-4">
-              <h3 className="font-semibold mb-2">Bukti Media</h3>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                {report.media.map((file, index) => (
-                  <a key={index} href={file.url} target="_blank" rel="noopener noreferrer">
-                    <img src={file.url} alt={`Bukti ${index + 1}`} className="rounded-lg object-cover w-full h-32 hover:opacity-80 transition-opacity" />
-                  </a>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Right Column: AI Analysis */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 space-y-4 h-fit">
-           <h2 className="text-lg font-bold border-b pb-2">🤖 Analisis AI</h2>
-           <div>
-              <h4 className="font-semibold text-sm">Kemungkinan Diagnosis</h4>
-              <p className="text-sm text-neutral-600">{report.ai_analysis?.diagnosis || "Tidak ada diagnosis."}</p>
-           </div>
-           <div>
-              <h4 className="font-semibold text-sm">Rekomendasi Tindakan</h4>
-              <p className="text-sm text-neutral-600">{report.ai_analysis?.recommendation || "Tidak ada rekomendasi."}</p>
-           </div>
-           <div>
-              <h4 className="font-semibold text-sm">Perkiraan Biaya Suku Cadang</h4>
-              <p className="text-lg font-bold text-red-600">{report.ai_analysis?.estimated_cost ? `Rp ${Number(report.ai_analysis.estimated_cost).toLocaleString('id-ID')}` : "N/A"}</p>
-           </div>
-        </div>
-      </main>
-    </div>
-  );
+    );
 }
 
 export default ReportDetailPage;
+
