@@ -47,7 +47,7 @@ function ReportDetailPage() {
     <div className="min-h-screen bg-neutral-50">
       <header className="px-4 py-3 bg-white/80 backdrop-blur border-b border-neutral-200">
         <div className="max-w-4xl mx-auto flex items-center gap-3">
-          <Link to="/dashboard" className="text-red-600 hover:underline text-sm">← Kembali ke Dasbor</Link>
+          <Link to="/karyawandashboard" className="text-red-600 hover:underline text-sm">← Kembali ke Dasbor</Link>
         </div>
       </header>
 

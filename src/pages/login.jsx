@@ -29,7 +29,7 @@ function LoginPage() {
       });
 
       setTimeout(() => {
-        navigate("/dashboard");
+        navigate("/karyawandashboard");
       },1000)
     } catch (error) {
       if (error.response && error.response.status === 422) {

@@ -50,7 +50,7 @@ function EmployeeDashboard() {
       <header className="px-4 py-3 bg-white/80 backdrop-blur border-b border-neutral-200">
         <div className="max-w-4xl mx-auto flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <img src="src\assets\TRACERLOGO.png" alt="Tracer Logo" className="size-9" />
+            <img src="src\assets\TRACERLOGO.png" alt="Tracer Logo" className="size-9 object-contain" />
             <div>
               <h1 className="text-base font-semibold leading-tight">Dasbor Karyawan</h1>
               <p className="text-xs text-neutral-500">Selamat datang, {userData?.name || "Pengguna"}!</p>
