@@ -17,18 +17,16 @@ const router = createBrowserRouter([
     },
     {
         path: "/karyawandashboard",
-        // Note: I'm using EmployeeDashboard to match the component we created.
-        // You can rename your DashboardPage.jsx file to EmployeeDashboard.jsx.
+    
         element: <EmployeeDashboard />,
     },
     {
-        // Route for the report creation form
+      
         path: "/create-report",
         element: <CreateReportPage />,
     },
     {
-        // Dynamic route for viewing a single report's details.
-        // The ':reportId' part is a placeholder for the actual ID.
+  
         path: "/report/:reportId",
         element: <ReportDetailPage />,
     }

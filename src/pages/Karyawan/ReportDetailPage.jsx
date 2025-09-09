@@ -38,7 +38,7 @@ function ReportDetailPage() {
             setIsLoading(true);
             setError({ message: "", instructions: "" }); // Reset error state on new fetch
             try {
-                const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/reports/${reportId}`, {
+                const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/reports/${reportId}`, {
                     headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` },
                 });
                 setReport(response.data);

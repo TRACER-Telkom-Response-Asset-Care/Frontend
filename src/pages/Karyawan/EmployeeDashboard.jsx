@@ -12,6 +12,7 @@ function EmployeeDashboard() {
   useEffect(() => {
     const fetchReports = async () => {
       const token = localStorage.getItem("authToken");
+      console.log(token);
       if (!token) {
         navigate("/login");
         return;

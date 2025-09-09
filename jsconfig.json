@@ -6,7 +6,7 @@
         "./src/*"
       ]
     },
-    "allowJs": true, // <-- Pilihan penting untuk proyek JS
-    "jsx": "react-jsx" // Opsi tambahan yang bagus untuk React
+    "allowJs": true, 
+    "jsx": "react-jsx" 
   }
 }

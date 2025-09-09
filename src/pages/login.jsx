@@ -33,11 +33,10 @@ function LoginPage() {
       },1000)
     } catch (error) {
       if (error.response && error.response.status === 422) {
-        // Menangkap error validasi dari Laravel (misal: email salah format)
         setAlert({ message: error.response.data.message, type: "error" });
         setErrors(error.response.data.errors);
       } else {
-        // Menangkap error lain (misal: server mati, kredensial salah)
+    
         setAlert({ message: "Email atau kata sandi salah.", type: "error" });
       }
     } finally {
