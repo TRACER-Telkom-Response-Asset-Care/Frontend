@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import apiClient from "../apiClient";
+import apiClient from "../../apiClient";
 
 function CreateReportPage() {
   const [itemType, setItemType] = useState("");
@@ -32,7 +32,7 @@ function CreateReportPage() {
         },
       });
       setAlert({ message: "Laporan berhasil dikirim! Mengarahkan ke dashboard...", type: "success" });
-      setTimeout(() => navigate("/dashboard"), 2000);
+      setTimeout(() => navigate("/karyawandashboard"), 2000);
     } catch (error) {
       setAlert({ message: error.response?.data?.message || "Gagal mengirim laporan.", type: "error" });
     } finally {
@@ -44,7 +44,7 @@ function CreateReportPage() {
     <div className="min-h-screen bg-neutral-50 text-neutral-900">
       <header className="px-4 py-3 bg-white/80 backdrop-blur border-b border-neutral-200">
         <div className="max-w-2xl mx-auto flex items-center gap-3">
-          <img src="src\assets\TRACERLOGO.png" alt="Tracer Logo" className="size-9" />
+          <img src="src\assets\TRACERLOGO.png" alt="Tracer Logo" className="size-9 object-contain" />
           <h1 className="text-base font-semibold leading-tight">Buat Laporan Kerusakan Baru</h1>
         </div>
       </header>
@@ -76,7 +76,7 @@ function CreateReportPage() {
             <p className="mt-1 text-xs text-neutral-500">Anda dapat memilih lebih dari satu file.</p>
           </div>
           <div className="flex justify-end gap-4 pt-4">
-            <Link to="/dashboard" className="text-sm font-medium text-neutral-600 hover:underline">Batal</Link>
+            <Link to="/karyawandashboard" className="text-sm font-medium text-neutral-600 hover:underline">Batal</Link>
             <button type="submit" disabled={isLoading} className="bg-red-600 text-white font-medium py-2 px-6 rounded-xl active:scale-[.99] disabled:bg-red-300">
               {isLoading ? "Mengirim..." : "Kirim Laporan"}
             </button>

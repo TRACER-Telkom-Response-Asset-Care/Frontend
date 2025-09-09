@@ -2,9 +2,9 @@ import { createBrowserRouter } from "react-router-dom";
 
 // Import all the pages needed for the employee flow
 import LoginPage from "./pages/Login";
-import EmployeeDashboard from "./pages/EmployeeDashboard";
-import CreateReportPage from "./pages/CreateReportPage";
-import ReportDetailPage from "./pages/ReportDetailPage";
+import EmployeeDashboard from "./pages/Karyawan/EmployeeDashboard";
+import CreateReportPage from "./pages/Karyawan/CreateReportPage";
+import ReportDetailPage from "./pages/Karyawan/ReportDetailPage";
 
 const router = createBrowserRouter([
     {
@@ -16,7 +16,7 @@ const router = createBrowserRouter([
         element: <LoginPage />,
     },
     {
-        path: "/dashboard",
+        path: "/karyawandashboard",
         // Note: I'm using EmployeeDashboard to match the component we created.
         // You can rename your DashboardPage.jsx file to EmployeeDashboard.jsx.
         element: <EmployeeDashboard />,
