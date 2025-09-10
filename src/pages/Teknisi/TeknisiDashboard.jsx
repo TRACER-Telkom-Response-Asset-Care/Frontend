@@ -79,7 +79,7 @@ function TeknisiDashboard() {
             />
             <div>
               <h1 className="text-base font-semibold leading-tight">
-                Dasbor Teknisi
+                Dasbor Karyawan
               </h1>
               <p className="text-xs text-neutral-500">
                 Selamat datang, {userData?.name || "Pengguna"}!

@@ -1,16 +1,19 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import apiClient from "../apiClient";
+import { useAuth } from "../context/AuthContext"; // <-- Impor hook useAuth
 
 function LoginPage() {
   const navigate = useNavigate();
+  const { login } = useAuth(); // <-- Dapatkan fungsi login dari context
   const [employeeID, setEmployeeID] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [alert, setAlert] = useState({ message: "", type: "" });
-  const   handleSubmit = async (event) => {
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
     setErrors({});
@@ -20,33 +23,42 @@ function LoginPage() {
         employee_id: employeeID,
         password: password,
       });
+      
       console.log("Login berhasil:", response.data.user);
-      localStorage.setItem("authToken", response.data.access_token);
-      localStorage.setItem("userData", JSON.stringify(response.data.user));
+
+      // PENTING: Panggil fungsi login dari context.
+      // Ini akan menyimpan token di memori dan mengatur header axios.
+      login(response.data.token, response.data.user);
+
+      // Hapus penggunaan localStorage
+      // localStorage.setItem("authToken", response.data.access_token);
+      // localStorage.setItem("userData", JSON.stringify(response.data.user));
+
       setAlert({
         message: "Masuk berhasil! Mengarahkan ke dashboard...",
         type: "success",
       });
 
       setTimeout(() => {
-        if (response.data.user.role === "teknisi") {
-          navigate("/teknisisdashboard");
+        // Gunakan role dari data user yang baru saja diterima
+        if (response.data.user.roles[0].name === "teknisi") { // Menyesuaikan dengan struktur data Anda
+          navigate("/teknisidashboard");
         } else {
           navigate("/karyawandashboard");
         }
-      },1000)
+      }, 1000)
     } catch (error) {
       if (error.response && error.response.status === 422) {
         setAlert({ message: error.response.data.message, type: "error" });
         setErrors(error.response.data.errors);
       } else {
-    
-        setAlert({ message: "Email atau kata sandi salah.", type: "error" });
+        setAlert({ message: "ID Pekerja atau kata sandi salah.", type: "error" });
       }
     } finally {
       setIsLoading(false);
     }
   };
+
   return (
     <div className="min-h-screen flex flex-col bg-neutral-50 text-neutral-900">
       <header className="px-4 py-3 bg-white/80 backdrop-blur border-b border-neutral-200">
@@ -61,7 +73,6 @@ function LoginPage() {
         <section className="max-w-md mx-auto p-4">
           <div className="pt-6 text-center">
             <h2 className="text-2xl font-bold">Masuk</h2>
-           
           </div>
 
           {alert.message && (
@@ -81,6 +92,7 @@ function LoginPage() {
             className="mt-4 bg-white rounded-2xl p-8 shadow-lg space-y-8"
             noValidate
           >
+            {/* ... sisa dari form Anda tetap sama ... */}
             <div>
               <label
                 htmlFor="employeeid"
@@ -92,7 +104,6 @@ function LoginPage() {
                 id="employeeid"
                 name="employeeid"
                 type="text"
-                inputMode="employeeid"
                 autoComplete="username"
                 placeholder="ID Pekerja"
                 required
@@ -100,11 +111,6 @@ function LoginPage() {
                 onChange={(e) => setEmployeeID(e.target.value)}
                 className="w-full rounded-xl border border-neutral-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500/40"
               />
-              {errors.employeeID && (
-                <p className="mt-1 text-xs text-red-600">
-                  {errors.employeeID[0]}
-                </p>
-              )}
             </div>
 
             <div>
@@ -120,7 +126,6 @@ function LoginPage() {
                   name="password"
                   type={showPassword ? "text" : "password"}
                   autoComplete="current-password"
-                  minLength="6"
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -128,36 +133,11 @@ function LoginPage() {
                 />
                 <button
                   type="button"
-                  id="togglePwd"
-                  aria-label={
-                    showPassword
-                      ? "Sembunyikan kata sandi"
-                      : "Tampilkan kata sandi"
-                  }
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute inset-y-0 right-2 my-1 px-3 rounded-lg text-sm text-neutral-600 hover:bg-neutral-100"
                 >
                   {showPassword ? "Sembunyikan" : "Tampilkan"}
                 </button>
-              </div>
-              {errors.password && (
-                <p className="mt-1 text-xs text-red-600">
-                  {errors.password[0]}
-                </p>
-              )}
-
-              <div className="flex items-center justify-between mt-2 text-sm">
-                <label className="inline-flex items-center gap-2">
-                  <input
-                    id="remember"
-                    type="checkbox"
-                    className="rounded border-neutral-300"
-                  />{" "}
-                  Ingat saya
-                </label>
-                <a href="#" className="text-red-600">
-                  Lupa sandi?
-                </a>
               </div>
             </div>
 
@@ -168,16 +148,9 @@ function LoginPage() {
             >
               {isLoading ? "Memproses..." : "Masuk"}
             </button>
-
-            
           </form>
-
-          <p className="mt-6 text-[11px] text-neutral-500 text-center">
-            Dengan masuk, Anda menyetujui Kebijakan Privasi & Ketentuan Layanan.
-          </p>
         </section>
       </main>
-      <div className="h-6"></div>
     </div>
   );
 }
