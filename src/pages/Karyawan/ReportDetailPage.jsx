@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 
-// Definisikan base URL untuk gambar langsung di file ini.
+
 const IMAGE_BASE_URL = import.meta.env.VITE_API_BASE_URL.replace("/api", "");
 
-// --- Komponen UI untuk Loading dan Error ---
+
 
 const LoadingSpinner = () => (
     <div className="flex justify-center items-center p-10">
@@ -25,7 +25,7 @@ const ErrorDisplay = ({ message, instructions }) => (
     </div>
 );
 
-// --- Komponen Utama Halaman Detail Laporan ---
+
 
 function ReportDetailPage() {
     const { reportId } = useParams();
@@ -36,18 +36,18 @@ function ReportDetailPage() {
     useEffect(() => {
         const fetchReportDetails = async () => {
             setIsLoading(true);
-            setError({ message: "", instructions: "" }); // Reset error state on new fetch
+            setError({ message: "", instructions: "" }); 
             try {
                 const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/reports/${reportId}`, {
                     headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` },
                 });
                 setReport(response.data);
             } catch (err) {
-                console.error("Gagal mengambil detail laporan:", err); // Log error lengkap untuk debugging
+                console.error("Gagal mengambil detail laporan:", err); 
                 
-                // --- PENANGANAN ERROR YANG LEBIH BAIK ---
+                
                 if (err.response) {
-                    // Server merespons dengan status error (4xx atau 5xx)
+                   
                     if (err.response.status === 404) {
                         setError({ message: "Laporan ini tidak dapat ditemukan.", instructions: "Pastikan URL benar atau laporan belum dihapus." });
                     } else if (err.response.status === 403) {
@@ -58,10 +58,10 @@ function ReportDetailPage() {
                         setError({ message: "Terjadi kesalahan pada server.", instructions: "Tim kami telah diberitahu. Silakan coba lagi nanti." });
                     }
                 } else if (err.request) {
-                    // Permintaan dikirim tetapi tidak ada respons
+                    
                     setError({ message: "Tidak dapat terhubung ke server.", instructions: "Periksa koneksi internet Anda dan coba lagi." });
                 } else {
-                    // Terjadi kesalahan lain saat menyiapkan permintaan
+                    
                     setError({ message: "Terjadi kesalahan yang tidak terduga.", instructions: "Silakan muat ulang halaman." });
                 }
             } finally {
@@ -101,9 +101,9 @@ function ReportDetailPage() {
                     <ErrorDisplay message="Laporan tidak dapat ditemukan." />
                 ) : (
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        {/* Konten Utama */}
+                  
                         <div className="lg:col-span-2 bg-white rounded-2xl shadow-lg p-6 space-y-6">
-                           {/* ... (sisa kode tampilan tetap sama) ... */}
+                 
                             <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
                                 <div>
                                     <h1 className="text-2xl font-bold text-neutral-800">Laporan {report.report_code}</h1>
@@ -151,7 +151,7 @@ function ReportDetailPage() {
                                 </div>
                             )}
                         </div>
-                        {/* Sidebar Analisis AI */}
+                     
                         <div className="bg-white rounded-2xl shadow-lg p-6 space-y-4 h-fit">
                            <div className="flex items-center gap-3 border-b border-neutral-200 pb-2">
                                 <span className="text-2xl">🤖</span>

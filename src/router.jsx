@@ -5,6 +5,7 @@ import LoginPage from "./pages/Login";
 import EmployeeDashboard from "./pages/Karyawan/EmployeeDashboard";
 import CreateReportPage from "./pages/Karyawan/CreateReportPage";
 import ReportDetailPage from "./pages/Karyawan/ReportDetailPage";
+import TeknisiDashboard from "./pages/Teknisi/TeknisiDashboard";
 
 const router = createBrowserRouter([
     {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
   
         path: "/report/:reportId",
         element: <ReportDetailPage />,
+    },
+    {
+        path: "/teknisidashboard",
+        element: <TeknisiDashboard />,
     }
 ]);
 

@@ -29,7 +29,11 @@ function LoginPage() {
       });
 
       setTimeout(() => {
-        navigate("/karyawandashboard");
+        if (response.data.user.role === "teknisi") {
+          navigate("/teknisisdashboard");
+        } else {
+          navigate("/karyawandashboard");
+        }
       },1000)
     } catch (error) {
       if (error.response && error.response.status === 422) {

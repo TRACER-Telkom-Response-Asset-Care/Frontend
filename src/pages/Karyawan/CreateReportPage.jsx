@@ -41,7 +41,7 @@ function CreateReportPage() {
     formData.append("user_id", userData.id);
     formData.append("description", description);
     
-    // This part is correct, but the input name change makes it more robust.
+
     mediaFiles.forEach(file => formData.append("media[]", file));
 
     try {
@@ -54,9 +54,9 @@ function CreateReportPage() {
       setAlert({ message: "Laporan berhasil dikirim! Mengarahkan ke dashboard...", type: "success" });
       setTimeout(() => navigate("/karyawandashboard"), 2000);
     } catch (error) {
-      // More specific error handling for validation
+      
       if (error.response && error.response.status === 422) {
-        // Find the first media error to display
+       
         const mediaError = Object.keys(error.response.data.errors).find(key => key.startsWith('media.'));
         const errorMessage = mediaError 
           ? error.response.data.errors[mediaError][0] 
@@ -103,7 +103,7 @@ function CreateReportPage() {
           </div>
           <div>
             <label htmlFor="media" className="block text-sm font-medium mb-1">Unggah Bukti (Foto/Video)</label>
-            {/* --- FIX: Change the name attribute here --- */}
+            
             <input 
               id="media" 
               name="media[]" 
