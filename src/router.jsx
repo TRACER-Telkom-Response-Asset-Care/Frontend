@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoute";
 
-// Import all the pages needed for the employee flow
-import LoginPage from "./pages/Login";
+import LoginPage from "./pages/login";
 import EmployeeDashboard from "./pages/Karyawan/EmployeeDashboard";
 import CreateReportPage from "./pages/Karyawan/CreateReportPage";
 import ReportDetailPage from "./pages/Karyawan/ReportDetailPage";
@@ -17,23 +17,29 @@ const router = createBrowserRouter([
         element: <LoginPage />,
     },
     {
-        path: "/karyawandashboard",
-    
-        element: <EmployeeDashboard />,
+        path: "/logout",
+        element: <LoginPage />,
     },
     {
-      
-        path: "/create-report",
-        element: <CreateReportPage />,
-    },
-    {
-  
-        path: "/report/:reportId",
-        element: <ReportDetailPage />,
-    },
-    {
-        path: "/teknisidashboard",
-        element: <TeknisiDashboard />,
+        element: <ProtectedRoute />,
+        children: [
+            {
+                path: "/karyawandashboard",
+                element: <EmployeeDashboard />,
+            },
+            {
+                path: "/create-report",
+                element: <CreateReportPage />,
+            },
+            {
+                path: "/report/:reportId",
+                element: <ReportDetailPage />,
+            },
+            {
+                path: "/teknisidashboard",
+                element: <TeknisiDashboard />,
+            }
+        ]
     }
 ]);
 

@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import apiClient from "../apiClient";
-import { useAuth } from "../context/AuthContext"; // <-- Impor hook useAuth
+import { useAuth } from "../context/AuthContext";
 
 function LoginPage() {
   const navigate = useNavigate();
-  const { login } = useAuth(); // <-- Dapatkan fungsi login dari context
+  const { login } = useAuth();
   const [employeeID, setEmployeeID] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
@@ -26,13 +26,7 @@ function LoginPage() {
       
       console.log("Login berhasil:", response.data.user);
 
-      // PENTING: Panggil fungsi login dari context.
-      // Ini akan menyimpan token di memori dan mengatur header axios.
-      login(response.data.token, response.data.user);
-
-      // Hapus penggunaan localStorage
-      // localStorage.setItem("authToken", response.data.access_token);
-      // localStorage.setItem("userData", JSON.stringify(response.data.user));
+      login(response.data.access_token, response.data.user);
 
       setAlert({
         message: "Masuk berhasil! Mengarahkan ke dashboard...",
@@ -40,8 +34,7 @@ function LoginPage() {
       });
 
       setTimeout(() => {
-        // Gunakan role dari data user yang baru saja diterima
-        if (response.data.user.roles[0].name === "teknisi") { // Menyesuaikan dengan struktur data Anda
+        if (response.data.user.roles[0].name === "teknisi") {
           navigate("/teknisidashboard");
         } else {
           navigate("/karyawandashboard");
@@ -92,7 +85,6 @@ function LoginPage() {
             className="mt-4 bg-white rounded-2xl p-8 shadow-lg space-y-8"
             noValidate
           >
-            {/* ... sisa dari form Anda tetap sama ... */}
             <div>
               <label
                 htmlFor="employeeid"
