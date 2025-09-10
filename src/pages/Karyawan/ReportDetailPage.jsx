@@ -2,10 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 
-
-const IMAGE_BASE_URL = import.meta.env.VITE_API_BASE_URL.replace("/api", "");
-
-
+const IMAGE_BASE_URL = import.meta.env.IMAGE_BASE_URL.replace("/", "");
 
 const LoadingSpinner = () => (
     <div className="flex justify-center items-center p-10">
@@ -135,9 +132,9 @@ function ReportDetailPage() {
                                     <h3 className="text-base font-semibold text-neutral-700 mb-2">Bukti Media</h3>
                                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                                         {report.report_media.map((file) => (
-                                            <a key={file.id} href={`${IMAGE_BASE_URL}/storage/${file.file_path}`} target="_blank" rel="noopener noreferrer" className="relative group">
+                                            <a key={file.id} href={`${IMAGE_BASE_URL}${file.file_path}`} target="_blank" rel="noopener noreferrer" className="relative group">
                                                 <img 
-                                                    src={`${IMAGE_BASE_URL}/storage/${file.file_path}`} 
+                                                    src={`${IMAGE_BASE_URL}${file.file_path}`} 
                                                     alt={`Bukti laporan`} 
                                                     className="rounded-lg object-cover w-full h-32 border border-neutral-200"
                                                     onError={(e) => { e.target.onerror = null; e.target.src='https://placehold.co/300x200/EEE/31343C?text=Gagal\\nMuat'; }}
