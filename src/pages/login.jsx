@@ -23,7 +23,7 @@ function LoginPage() {
         employee_id: employeeID,
         password: password,
       });
-      
+
       console.log("Login berhasil:", response.data.user);
 
       login(response.data.access_token, response.data.user);
@@ -70,11 +70,10 @@ function LoginPage() {
 
           {alert.message && (
             <div
-              className={`mt-4 rounded-xl border text-sm p-3 ${
-                alert.type === "success"
+              className={`mt-4 rounded-xl border text-sm p-3 ${alert.type === "success"
                   ? "border-green-200 bg-green-50 text-green-700"
                   : "border-red-200 bg-red-50 text-red-700"
-              }`}
+                }`}
             >
               {alert.message}
             </div>

@@ -47,10 +47,10 @@ const AiAnalysisSection = ({ title, content, icon }) => (
 
 const MediaPreview = ({ file }) => {
     const filePath = `${IMAGE_BASE_URL}${file.file_path}`;
-    
+
     if (file.file_type === 'video') {
         return (
-             <a key={file.id} href={filePath} target="_blank" rel="noopener noreferrer" className="relative group block w-full h-32 bg-neutral-800 rounded-lg overflow-hidden">
+            <a key={file.id} href={filePath} target="_blank" rel="noopener noreferrer" className="relative group block w-full h-32 bg-neutral-800 rounded-lg overflow-hidden">
                 <video controls className="w-full h-full object-cover">
                     <source src={filePath} type="video/mp4" />
                     Browser Anda tidak mendukung tag video.
@@ -61,11 +61,11 @@ const MediaPreview = ({ file }) => {
 
     return (
         <a key={file.id} href={filePath} target="_blank" rel="noopener noreferrer" className="relative group block w-full h-32 bg-neutral-100 rounded-lg overflow-hidden">
-            <img 
-                src={filePath} 
-                alt="Bukti laporan" 
+            <img
+                src={filePath}
+                alt="Bukti laporan"
                 className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                onError={(e) => { e.target.onerror = null; e.target.src='https://placehold.co/300x200/EEE/31343C?text=Gagal\\nMuat'; }}
+                onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/300x200/EEE/31343C?text=Gagal\\nMuat'; }}
             />
             <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded-lg">
                 <p className="text-white text-xs font-bold">LIHAT</p>
@@ -83,6 +83,7 @@ function ReportDetailPage() {
     const [alert, setAlert] = useState({ message: "", type: "" });
     const [newStatus, setNewStatus] = useState('');
     const [feedbackText, setFeedbackText] = useState('');
+    const [aiResponse, setAiResponse] = useState(null);
     const [noFeedback, setNoFeedback] = useState(false);
     const { user, logout } = useAuth();
     const navigate = useNavigate();
@@ -118,6 +119,17 @@ function ReportDetailPage() {
         fetchReportDetails();
     }, [reportId]);
 
+    useEffect(() => {
+        if (report?.responses?.[0]?.response) {
+            try {
+                setAiResponse(JSON.parse(report.responses[0].response));
+            } catch (e) {
+                console.error("Invalid AI response JSON:", e);
+            }
+        }
+    }, [report]);
+
+
     const handleStatusUpdate = async (e) => {
         e.preventDefault();
         setIsUpdating(true);
@@ -130,7 +142,7 @@ function ReportDetailPage() {
                 const feedbackMessage = noFeedback ? "Tidak ada umpan balik." : feedbackText;
                 await apiClient.post(`/api/reports/${reportId}/feedback`, { feedback: feedbackMessage });
             }
-            
+
             setAlert({ message: "Laporan berhasil diperbarui!", type: "success" });
             fetchReportDetails();
             setFeedbackText('');
@@ -163,7 +175,6 @@ function ReportDetailPage() {
         }
     };
 
-    const aiResponse = report?.responses[0]?.response;
     console.log(report?.responses[0]?.response);
     console.log(typeof aiResponse);
 
@@ -182,7 +193,7 @@ function ReportDetailPage() {
                 {isLoading ? <LoadingSpinner /> : error.message ? (
                     <ErrorDisplay message={error.message} instructions={error.instructions} dashboardLink={dashboardLink} />
                 ) : !report ? (
-                    <ErrorDisplay message="Laporan tidak ditemukan." instructions="Laporan mungkin telah dihapus." dashboardLink={dashboardLink}/>
+                    <ErrorDisplay message="Laporan tidak ditemukan." instructions="Laporan mungkin telah dihapus." dashboardLink={dashboardLink} />
                 ) : (
                     <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
                         <div className="lg:col-span-3 space-y-6">
@@ -225,7 +236,7 @@ function ReportDetailPage() {
                                                 <label htmlFor="feedback" className="block text-sm font-medium text-neutral-700">Umpan Balik (Wajib diisi jika status Closed)</label>
                                                 <textarea id="feedback" rows="3" placeholder="Contoh: Perbaikan selesai, komponen X telah diganti." value={feedbackText} onChange={(e) => setFeedbackText(e.target.value)} disabled={noFeedback} className="w-full rounded-xl border-neutral-300 focus:border-red-500 focus:ring-red-500/40 shadow-sm disabled:bg-neutral-100"></textarea>
                                                 <div className="flex items-center gap-2">
-                                                    <input id="no-feedback" type="checkbox" checked={noFeedback} onChange={(e) => setNoFeedback(e.target.checked)} className="h-4 w-4 rounded border-neutral-300 text-red-600 focus:ring-red-500"/>
+                                                    <input id="no-feedback" type="checkbox" checked={noFeedback} onChange={(e) => setNoFeedback(e.target.checked)} className="h-4 w-4 rounded border-neutral-300 text-red-600 focus:ring-red-500" />
                                                     <label htmlFor="no-feedback" className="text-sm text-neutral-600">Tidak ada umpan balik khusus</label>
                                                 </div>
                                             </div>
@@ -234,14 +245,14 @@ function ReportDetailPage() {
                                 </div>
                             )}
                         </div>
-                        
+
                         <div className="lg:col-span-2 h-fit sticky top-24">
                             <div className="bg-white rounded-2xl shadow-lg p-6 space-y-5">
                                 <div className="flex items-center gap-3 border-b border-neutral-200 pb-3">
                                     <span className="text-2xl">🤖</span>
                                     <h2 className="text-lg font-bold text-neutral-800">Analisis AI</h2>
                                 </div>
-                                {typeof aiResponse === 'string' && aiResponse !== null ? (
+                                {typeof aiResponse === 'object' && aiResponse !== null ? (
                                     <div className="space-y-5">
                                         <AiAnalysisSection icon="📄" title="Ringkasan Masalah" content={aiResponse['Ringkasan Masalah']} />
                                         <AiAnalysisSection icon="🔍" title="Identifikasi Penyebab" content={aiResponse['Identifikasi Kemungkinan Penyebab']} />
