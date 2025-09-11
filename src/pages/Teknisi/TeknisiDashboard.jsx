@@ -109,7 +109,7 @@ function TeknisiDashboard() {
     const filteredReports = useMemo(() => {
         return reports
             .filter(report => filterStatus === 'all' || report.status === filterStatus)
-            .filter(report => 
+            .filter(report =>
                 report.report_code.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 report.asset.name.toLowerCase().includes(searchTerm.toLowerCase())
             );
@@ -129,7 +129,7 @@ function TeknisiDashboard() {
     const renderContent = () => {
         if (isLoading || isInitializing) return <LoadingSpinner />;
         if (error) return <ErrorDisplay message={error} />;
-        
+
         return (
             <>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
@@ -174,7 +174,7 @@ function TeknisiDashboard() {
             <header className="px-4 py-3 bg-white/80 backdrop-blur border-b border-neutral-200 sticky top-0 z-10">
                 <div className="max-w-6xl mx-auto flex items-center justify-between gap-3">
                     <div className="flex items-center gap-3">
-                        <img src="/src/assets/TRACERLOGO.png" alt="Tracer Logo" className="size-9 object-contain" />
+                        <img src="/TRACERLOGO.png" alt="Tracer Logo" className="size-9 object-contain" />
                         <div>
                             <h1 className="text-base font-semibold leading-tight">Dasbor Teknisi</h1>
                             <p className="text-xs text-neutral-500">Selamat datang, {user?.name || "Pengguna"}!</p>

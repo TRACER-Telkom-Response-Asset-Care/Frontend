@@ -21,8 +21,8 @@ const EmptyState = () => (
     <div className="text-center p-10 bg-white rounded-2xl shadow-lg">
         <h3 className="text-lg font-semibold text-neutral-800">Belum Ada Laporan</h3>
         <p className="mt-1 text-sm text-neutral-500">Sepertinya Anda belum pernah membuat laporan kerusakan.</p>
-        <Link 
-            to="/create-report" 
+        <Link
+            to="/create-report"
             className="mt-4 inline-block bg-red-600 text-white font-medium py-2 px-4 rounded-xl text-sm hover:bg-red-700 transition-colors"
         >
             Buat Laporan Pertama Anda
@@ -129,7 +129,7 @@ function EmployeeDashboard() {
             <header className="px-4 py-3 bg-white/80 backdrop-blur border-b border-neutral-200 sticky top-0 z-10">
                 <div className="max-w-4xl mx-auto flex items-center justify-between gap-3">
                     <div className="flex items-center gap-3">
-                        <img src="/src/assets/TRACERLOGO.png" alt="Tracer Logo" className="size-9 object-contain" />
+                        <img src="/TRACERLOGO.png" alt="Tracer Logo" className="size-9 object-contain" />
                         <div>
                             <h1 className="text-base font-semibold leading-tight">Dasbor Karyawan</h1>
                             <p className="text-xs text-neutral-500">Selamat datang, {user?.name || "Pengguna"}!</p>
