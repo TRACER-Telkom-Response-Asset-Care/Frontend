@@ -120,6 +120,12 @@ function ReportDetailPage() {
     }, [reportId]);
 
     useEffect(() => {
+        if (report?.feedback?.[0]?.feedback) {
+            setFeedbackText(report.feedback[0].feedback);
+        }
+    }, [report]);
+
+    useEffect(() => {
         if (report?.responses?.[0]?.response) {
             try {
                 setAiResponse(JSON.parse(report.responses[0].response));
@@ -175,9 +181,9 @@ function ReportDetailPage() {
         }
     };
 
-    console.log(report?.responses[0]?.response);
-    console.log(typeof aiResponse);
-   
+    // console.log(report?.responses[0]?.response);
+    // console.log(typeof aiResponse);
+
     return (
         <div className="min-h-screen bg-neutral-100">
             <header className="px-4 py-3 bg-white/80 backdrop-blur border-b border-neutral-200 sticky top-0 z-10">
