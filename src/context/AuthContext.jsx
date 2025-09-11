@@ -8,7 +8,7 @@ export const AuthProvider = ({ children }) => {
         try {
             return JSON.parse(localStorage.getItem('userData'));
         } catch (e) {
-            return null;
+            console.error("Failed to parse user data from localStorage", e);
         }
     });
     const [isInitializing, setIsInitializing] = useState(true);
