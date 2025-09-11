@@ -57,7 +57,7 @@ function LoginPage() {
       <header className="px-4 py-3 bg-white/80 backdrop-blur border-b border-neutral-200">
         <div className="flex items-center justify-center  gap-3">
           <div className="w-[240px] rounded-xl flex items-center justify-center">
-            <img src="src\assets\TRACERLOGO.png" alt="Tracer Logo" />
+            <img src="/TRACERLOGO.png" alt="Tracer Logo" />
           </div>
         </div>
       </header>
@@ -71,8 +71,8 @@ function LoginPage() {
           {alert.message && (
             <div
               className={`mt-4 rounded-xl border text-sm p-3 ${alert.type === "success"
-                  ? "border-green-200 bg-green-50 text-green-700"
-                  : "border-red-200 bg-red-50 text-red-700"
+                ? "border-green-200 bg-green-50 text-green-700"
+                : "border-red-200 bg-red-50 text-red-700"
                 }`}
             >
               {alert.message}
