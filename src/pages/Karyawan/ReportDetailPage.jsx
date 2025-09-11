@@ -177,7 +177,7 @@ function ReportDetailPage() {
 
     console.log(report?.responses[0]?.response);
     console.log(typeof aiResponse);
-
+   
     return (
         <div className="min-h-screen bg-neutral-100">
             <header className="px-4 py-3 bg-white/80 backdrop-blur border-b border-neutral-200 sticky top-0 z-10">
@@ -209,7 +209,7 @@ function ReportDetailPage() {
                                 <InfoSection icon="🎛️" title="Informasi Aset"><div className="text-sm grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2"><span className="text-neutral-500">Nama Aset</span> <span className="text-neutral-800 font-medium">{report.asset.name}</span><span className="text-neutral-500">Kode Aset</span> <span className="text-neutral-800">{report.asset.asset_code}</span><span className="text-neutral-500">Lokasi</span> <span className="text-neutral-800">{report.asset.location}</span><span className="text-neutral-500">Tipe Aset</span> <span className="text-neutral-800">{report.asset.asset_type?.name || 'N/A'}</span></div></InfoSection>
                                 <InfoSection icon="📝" title="Deskripsi Kerusakan"><p className="text-sm text-neutral-700 whitespace-pre-wrap bg-neutral-50 p-4 rounded-lg border border-neutral-200">{report.description}</p></InfoSection>
                                 {report.report_media?.length > 0 && <InfoSection icon="📸" title="Bukti Media"><div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">{report.report_media.map((file) => <MediaPreview key={file.id} file={file} />)}</div></InfoSection>}
-                                {report.feedback?.[0] && <InfoSection icon="💬" title="Umpan Balik Teknisi"><p className="text-sm text-neutral-700 whitespace-pre-wrap bg-blue-50 p-4 rounded-lg border border-blue-200">{report.feedback[0].message}</p></InfoSection>}
+                                {report.feedback?.[0] && <InfoSection icon="💬" title="Umpan Balik Teknisi"><p className="text-sm text-neutral-700 whitespace-pre-wrap bg-blue-50 p-4 rounded-lg border border-blue-200">{report?.feedback[0]?.feedback}</p></InfoSection>}
                                 <InfoSection icon="👤" title="Informasi Pelapor"><div className="text-sm grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2"><span className="text-neutral-500">Nama</span> <span className="text-neutral-800 font-medium">{report.user.name}</span><span className="text-neutral-500">ID Karyawan</span> <span className="text-neutral-800">{report.user.employee_id}</span></div></InfoSection>
                             </div>
 
@@ -221,7 +221,7 @@ function ReportDetailPage() {
                                         <div>
                                             <label htmlFor="status" className="block text-sm font-medium mb-1.5 text-neutral-700">Ubah Status Laporan</label>
                                             <div className="flex items-start gap-4">
-                                                <select id="status" value={newStatus} onChange={(e) => setNewStatus(e.target.value)} className="w-full rounded-xl border-neutral-300 focus:border-red-500 focus:ring-red-500/40 shadow-sm">
+                                                <select id="status" value={newStatus} onChange={(e) => setNewStatus(e.target.value)} className="w-full rounded-xl border-neutral-300 focus:border-red-500 focus:ring-red-500/40 shadow-sm px-2">
                                                     <option value="open">Open</option>
                                                     <option value="in_progress">In Progress</option>
                                                     <option value="closed">Closed</option>
@@ -234,7 +234,7 @@ function ReportDetailPage() {
                                         {newStatus === 'closed' && (
                                             <div className="space-y-3 pt-3 border-t border-dashed">
                                                 <label htmlFor="feedback" className="block text-sm font-medium text-neutral-700">Umpan Balik (Wajib diisi jika status Closed)</label>
-                                                <textarea id="feedback" rows="3" placeholder="Contoh: Perbaikan selesai, komponen X telah diganti." value={feedbackText} onChange={(e) => setFeedbackText(e.target.value)} disabled={noFeedback} className="w-full rounded-xl border-neutral-300 focus:border-red-500 focus:ring-red-500/40 shadow-sm disabled:bg-neutral-100"></textarea>
+                                                <textarea id="feedback" rows="3" placeholder="Contoh: Perbaikan selesai, komponen X telah diganti." value={feedbackText} onChange={(e) => setFeedbackText(e.target.value)} disabled={noFeedback} className="w-full rounded-xl border-neutral-300 focus:border-red-500 focus:ring-red-500/40 shadow-sm disabled:bg-neutral-100 p-2"></textarea>
                                                 <div className="flex items-center gap-2">
                                                     <input id="no-feedback" type="checkbox" checked={noFeedback} onChange={(e) => setNoFeedback(e.target.checked)} className="h-4 w-4 rounded border-neutral-300 text-red-600 focus:ring-red-500" />
                                                     <label htmlFor="no-feedback" className="text-sm text-neutral-600">Tidak ada umpan balik khusus</label>
