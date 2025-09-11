@@ -163,7 +163,9 @@ function ReportDetailPage() {
         }
     };
 
-    const aiResponse = report?.responses?.[0]?.response;
+    const aiResponse = report?.responses[0]?.response;
+    console.log(report?.responses[0]?.response);
+    console.log(typeof aiResponse);
 
     return (
         <div className="min-h-screen bg-neutral-100">
@@ -239,7 +241,7 @@ function ReportDetailPage() {
                                     <span className="text-2xl">🤖</span>
                                     <h2 className="text-lg font-bold text-neutral-800">Analisis AI</h2>
                                 </div>
-                                {typeof aiResponse === 'object' && aiResponse !== null ? (
+                                {typeof aiResponse === 'string' && aiResponse !== null ? (
                                     <div className="space-y-5">
                                         <AiAnalysisSection icon="📄" title="Ringkasan Masalah" content={aiResponse['Ringkasan Masalah']} />
                                         <AiAnalysisSection icon="🔍" title="Identifikasi Penyebab" content={aiResponse['Identifikasi Kemungkinan Penyebab']} />

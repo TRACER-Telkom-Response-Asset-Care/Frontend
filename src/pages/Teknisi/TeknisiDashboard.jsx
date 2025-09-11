@@ -144,7 +144,7 @@ function TeknisiDashboard() {
                             type="text"
                             placeholder="Cari ID laporan atau nama aset..."
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full md:w-1/3 rounded-xl border-neutral-300 focus:border-red-500 focus:ring-red-500/40 shadow-sm"
+                            className="w-full md:w-1/3 rounded-xl border-neutral-300 focus:border-red-500 focus:ring-red-500/40 shadow-sm px-4"
                         />
                         <div className="flex items-center gap-2">
                             {['all', 'open', 'in_progress', 'closed'].map(status => (

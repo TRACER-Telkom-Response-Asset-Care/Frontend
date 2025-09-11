@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import apiClient from "@/apiClient";
 import { useAuth } from "@/context/AuthContext";
 
-// --- Helper Icons (SVG) ---
+
 const CheckCircleIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" />
@@ -216,7 +216,7 @@ function CreateReportPage() {
                 <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg border border-neutral-200 space-y-6">
                     <Alert message={alert.message} type={alert.type} />
                     
-                    {/* --- Asset Selection --- */}
+                    
                     <div>
                         <label htmlFor="assetId" className="block text-sm font-medium mb-1.5 text-neutral-700">Pilih Aset yang Rusak</label>
                         <div className="relative">
@@ -240,7 +240,7 @@ function CreateReportPage() {
                         </div>
                     </div>
 
-                    {/* --- Description --- */}
+                    
                     <div>
                         <label htmlFor="description" className="block text-sm font-medium mb-1.5 text-neutral-700">Deskripsikan Kerusakan</label>
                         <textarea 
@@ -250,11 +250,10 @@ function CreateReportPage() {
                             required 
                             value={description} 
                             onChange={(e) => setDescription(e.target.value)} 
-                            className="w-full rounded-xl border-neutral-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/30 shadow-sm transition-colors duration-200"
+                            className="w-full rounded-xl border-neutral-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/30 shadow-sm transition-colors duration-200 p-2"
                         ></textarea>
                     </div>
 
-                    {/* --- File Uploader --- */}
                     <div>
                         <label className="block text-sm font-medium mb-1.5 text-neutral-700">Unggah Bukti (Foto/Video)</label>
                         <div
@@ -282,7 +281,7 @@ function CreateReportPage() {
                         </div>
                     </div>
                     
-                    {/* --- File Previews --- */}
+                    
                     {mediaFiles.length > 0 && (
                         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4 pt-2">
                             {mediaFiles.map((file, index) => (
@@ -291,7 +290,7 @@ function CreateReportPage() {
                         </div>
                     )}
 
-                    {/* --- Action Buttons --- */}
+                
                     <div className="flex flex-col sm:flex-row justify-end items-center gap-4 pt-5 border-t border-neutral-200 mt-6">
                         <Link to="/karyawandashboard" className="text-sm font-medium text-center text-neutral-600 hover:text-red-600 py-2.5 px-6 rounded-xl w-full sm:w-auto hover:bg-neutral-100 transition-colors">
                             Batal
