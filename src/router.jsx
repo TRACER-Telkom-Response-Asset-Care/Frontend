@@ -42,15 +42,15 @@ const router = createBrowserRouter([
                 element: <TeknisiDashboard />,
             },
             {
-                path: "/superadmin/assets",
+                path: "/assets",
                 element: <AssetManagementPage />,
             },
             {
-                path: "/superadmin/assets/new",
+                path: "/assets/new",
                 element: <AssetForm />,
             },
             {
-                path: "/superadmin/assets/edit/:id",
+                path: "/assets/edit/:id",
                 element: <AssetForm />,
             }
         ]
