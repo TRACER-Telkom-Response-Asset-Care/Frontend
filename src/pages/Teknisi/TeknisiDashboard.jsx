@@ -180,9 +180,14 @@ function TeknisiDashboard() {
                             <p className="text-xs text-neutral-500">Selamat datang, {user?.name || "Pengguna"}!</p>
                         </div>
                     </div>
-                    <button onClick={handleLogout} className="text-sm font-medium text-red-600 hover:underline">
-                        Keluar
-                    </button>
+                    <div className="flex items-center gap-4">
+                        <Link to="/superadmin/assets" className="text-sm font-medium text-neutral-700 hover:text-red-600">
+                            Manajemen Aset
+                        </Link>
+                        <button onClick={handleLogout} className="text-sm font-medium text-red-600 hover:underline">
+                            Keluar
+                        </button>
+                    </div>
                 </div>
             </header>
             <main className="max-w-6xl mx-auto p-4">

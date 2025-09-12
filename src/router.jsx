@@ -6,6 +6,8 @@ import EmployeeDashboard from "./pages/Karyawan/EmployeeDashboard";
 import CreateReportPage from "./pages/Karyawan/CreateReportPage";
 import ReportDetailPage from "./pages/Karyawan/ReportDetailPage";
 import TeknisiDashboard from "./pages/Teknisi/TeknisiDashboard";
+import AssetManagementPage from "./pages/Superadmin/AssetManagementPage";
+import AssetForm from "./pages/Superadmin/AssetForm";
 
 const router = createBrowserRouter([
     {
@@ -38,6 +40,18 @@ const router = createBrowserRouter([
             {
                 path: "/teknisidashboard",
                 element: <TeknisiDashboard />,
+            },
+            {
+                path: "/superadmin/assets",
+                element: <AssetManagementPage />,
+            },
+            {
+                path: "/superadmin/assets/new",
+                element: <AssetForm />,
+            },
+            {
+                path: "/superadmin/assets/edit/:id",
+                element: <AssetForm />,
             }
         ]
     }
