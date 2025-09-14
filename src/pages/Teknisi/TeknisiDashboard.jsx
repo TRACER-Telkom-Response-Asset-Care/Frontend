@@ -181,7 +181,7 @@ function TeknisiDashboard() {
                         </div>
                     </div>
                     <div className="flex items-center gap-4">
-                        <Link to="/superadmin/assets" className="text-sm font-medium text-neutral-700 hover:text-red-600">
+                        <Link to="/assets" className="text-sm font-medium text-neutral-700 hover:text-red-600">
                             Manajemen Aset
                         </Link>
                         <button onClick={handleLogout} className="text-sm font-medium text-red-600 hover:underline">

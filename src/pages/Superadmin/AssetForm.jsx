@@ -63,7 +63,7 @@ function AssetForm() {
 
         try {
             await apiCall;
-            navigate('/superadmin/assets');
+            navigate('/assets');
         } catch (err) {
             setError(err.response?.data?.message || `Gagal ${isEditing ? 'memperbarui' : 'menyimpan'} aset.`);
             console.error(err);
@@ -110,7 +110,7 @@ function AssetForm() {
                     </div>
 
                     <div className="flex justify-end gap-4 pt-4">
-                        <Link to="/superadmin/assets" className="text-sm font-medium text-neutral-600 py-2.5 px-6 rounded-xl hover:bg-neutral-100">Batal</Link>
+                        <Link to="/assets" className="text-sm font-medium text-neutral-600 py-2.5 px-6 rounded-xl hover:bg-neutral-100">Batal</Link>
                         <button type="submit" disabled={isLoading} className="bg-red-600 text-white font-medium py-2.5 px-8 rounded-xl disabled:bg-red-300">
                             {isLoading ? 'Menyimpan...' : 'Simpan Aset'}
                         </button>

@@ -22,7 +22,7 @@ const EmptyState = () => (
         <h3 className="text-lg font-semibold text-neutral-800">Belum Ada Aset</h3>
         <p className="mt-1 text-sm text-neutral-500">Sepertinya belum ada data aset yang ditambahkan.</p>
         <Link
-            to="/superadmin/assets/new"
+            to="/assets/new"
             className="mt-4 inline-block bg-red-600 text-white font-medium py-2 px-4 rounded-xl text-sm hover:bg-red-700 transition-colors"
         >
             Tambah Aset Pertama
@@ -101,7 +101,7 @@ function AssetManagementPage() {
     };
 
     const handleEdit = (id) => {
-        navigate(`/superadmin/assets/edit/${id}`);
+        navigate(`/assets/edit/${id}`);
     };
 
     const handleDelete = async (id) => {
@@ -153,7 +153,7 @@ function AssetManagementPage() {
             <main className="max-w-6xl mx-auto p-4">
                 <div className="flex justify-between items-center mb-6">
                     <h2 className="text-2xl font-bold text-neutral-800">Daftar Aset</h2>
-                    <Link to="/superadmin/assets/new" className="bg-red-600 text-white font-medium py-2 px-5 rounded-xl active:scale-[.99] hover:bg-red-700 transition-colors shadow-sm">
+                    <Link to="/assets/new" className="bg-red-600 text-white font-medium py-2 px-5 rounded-xl active:scale-[.99] hover:bg-red-700 transition-colors shadow-sm">
                         Tambah Aset Baru
                     </Link>
                 </div>
