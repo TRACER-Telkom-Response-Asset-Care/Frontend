@@ -6,8 +6,8 @@ import EmployeeDashboard from "./pages/Karyawan/EmployeeDashboard";
 import CreateReportPage from "./pages/Karyawan/CreateReportPage";
 import ReportDetailPage from "./pages/Karyawan/ReportDetailPage";
 import TeknisiDashboard from "./pages/Teknisi/TeknisiDashboard";
-import AssetManagementPage from "./pages/Superadmin/AssetManagementPage";
-import AssetForm from "./pages/Superadmin/AssetForm";
+import AssetManagementPage from "./pages/AssetManagementPage";
+import AssetForm from "./pages/AssetForm";
 
 const router = createBrowserRouter([
     {
