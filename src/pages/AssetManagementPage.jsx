@@ -80,7 +80,7 @@ function AssetManagementPage() {
         } else if (role === "teknisi") {
             return "/teknisidashboard";
         } else {
-            return "/employeedashboard";
+            return "/pegawaidashboard";
         }
     }, [user?.roles]);
 

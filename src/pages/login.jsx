@@ -39,7 +39,7 @@ function LoginPage() {
         } else if (response.data.user.roles[0].name === "superadmin") {
           navigate("/superadmindashboard");
         } else {
-          navigate("/employeedashboard");
+          navigate("/pegawaidashboard");
         }
       }, 1000)
     } catch (error) {

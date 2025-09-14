@@ -109,7 +109,7 @@ function UserManagementPage() {
                         </div>
                     </div>
                      <div className="flex items-center gap-4">
-                        <Link to="/superadmindashboard" className="text-sm font-medium text-neutral-700 hover:text-red-600">Dasbor</Link>
+                        <Link to="/superadmindashboard" className="text-sm font-medium text-neutral-700 hover:text-red-600">Kembali ke Dasbor</Link>
                         <button onClick={logout} className="text-sm font-medium text-red-600 hover:underline">Keluar</button>
                     </div>
                 </div>
