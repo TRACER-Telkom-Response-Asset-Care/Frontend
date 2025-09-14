@@ -73,7 +73,16 @@ function AssetManagementPage() {
     const { user, logout, isInitializing } = useAuth();
     const navigate = useNavigate();
 
-    const dashboardLink = "/teknisidashboard";
+    const dashboardLink = useMemo(() => {
+        const role = user?.roles?.[0]?.name;
+        if (role === "superadmin") {
+            return "/superadmindashboard";
+        } else if (role === "teknisi") {
+            return "/teknisidashboard";
+        } else {
+            return "/employeedashboard";
+        }
+    }, [user?.roles]);
 
     const fetchAssets = async () => {
         setIsLoading(true);
@@ -153,9 +162,14 @@ function AssetManagementPage() {
             <main className="max-w-6xl mx-auto p-4">
                 <div className="flex justify-between items-center mb-6">
                     <h2 className="text-2xl font-bold text-neutral-800">Daftar Aset</h2>
-                    <Link to="/assets/new" className="bg-red-600 text-white font-medium py-2 px-5 rounded-xl active:scale-[.99] hover:bg-red-700 transition-colors shadow-sm">
-                        Tambah Aset Baru
-                    </Link>
+                    <div className="flex items-center gap-4">
+                        <Link to="/asset-types" className="bg-white border border-neutral-300 text-neutral-700 font-medium py-2 px-5 rounded-xl hover:bg-neutral-100 transition-colors shadow-sm">
+                            Kelola Tipe Aset
+                        </Link>
+                        <Link to="/assets/new" className="bg-red-600 text-white font-medium py-2 px-5 rounded-xl active:scale-[.99] hover:bg-red-700 transition-colors shadow-sm">
+                            Tambah Aset Baru
+                        </Link>
+                    </div>
                 </div>
                 {renderContent()}
             </main>

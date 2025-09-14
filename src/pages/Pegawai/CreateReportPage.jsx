@@ -186,7 +186,7 @@ function CreateReportPage() {
                 headers: { "Content-Type": "multipart/form-data" },
             });
             setAlert({ message: "Laporan berhasil dikirim! Mengarahkan ke dasbor...", type: "success" });
-            setTimeout(() => navigate("/karyawandashboard"), 2000);
+            setTimeout(() => navigate("/pegawaidashboard"), 2000);
         } catch (error) {
             const mediaError = error.response?.data?.errors 
                 ? Object.keys(error.response.data.errors).find(key => key.startsWith('media.'))
@@ -292,7 +292,7 @@ function CreateReportPage() {
 
                 
                     <div className="flex flex-col sm:flex-row justify-end items-center gap-4 pt-5 border-t border-neutral-200 mt-6">
-                        <Link to="/karyawandashboard" className="text-sm font-medium text-center text-neutral-600 hover:text-red-600 py-2.5 px-6 rounded-xl w-full sm:w-auto hover:bg-neutral-100 transition-colors">
+                        <Link to="/pegawaidashboard" className="text-sm font-medium text-center text-neutral-600 hover:text-red-600 py-2.5 px-6 rounded-xl w-full sm:w-auto hover:bg-neutral-100 transition-colors">
                             Batal
                         </Link>
                         <button 

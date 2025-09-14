@@ -36,8 +36,10 @@ function LoginPage() {
       setTimeout(() => {
         if (response.data.user.roles[0].name === "teknisi") {
           navigate("/teknisidashboard");
+        } else if (response.data.user.roles[0].name === "superadmin") {
+          navigate("/superadmindashboard");
         } else {
-          navigate("/karyawandashboard");
+          navigate("/employeedashboard");
         }
       }, 1000)
     } catch (error) {

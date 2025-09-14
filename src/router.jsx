@@ -2,12 +2,16 @@ import { createBrowserRouter } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 import LoginPage from "./pages/login";
-import EmployeeDashboard from "./pages/Karyawan/EmployeeDashboard";
-import CreateReportPage from "./pages/Karyawan/CreateReportPage";
-import ReportDetailPage from "./pages/Karyawan/ReportDetailPage";
+import EmployeeDashboard from "./pages/Pegawai/EmployeeDashboard";
+import CreateReportPage from "./pages/Pegawai/CreateReportPage";
+import ReportDetailPage from "./pages/Pegawai/ReportDetailPage";
 import TeknisiDashboard from "./pages/Teknisi/TeknisiDashboard";
+import SuperAdminDashboard from "./pages/Superadmin/SuperadminDashboard";
 import AssetManagementPage from "./pages/AssetManagementPage";
 import AssetForm from "./pages/AssetForm";
+import AssetTypeManagementPage from "./pages/AssetTypeManagementPage";
+import UserManagementPage from "./pages/Superadmin/UserManagementPage";
+import UserForm from "./pages/Superadmin/UserForm";
 
 const router = createBrowserRouter([
     {
@@ -26,7 +30,7 @@ const router = createBrowserRouter([
         element: <ProtectedRoute />,
         children: [
             {
-                path: "/karyawandashboard",
+                path: "/pegawaidashboard",
                 element: <EmployeeDashboard />,
             },
             {
@@ -52,7 +56,27 @@ const router = createBrowserRouter([
             {
                 path: "/assets/edit/:id",
                 element: <AssetForm />,
-            }
+            },
+            {
+                path: "/asset-types",
+                element: <AssetTypeManagementPage />,
+            },
+            {
+                path: "/superadmindashboard",
+                element: <SuperAdminDashboard />,
+            },
+            {
+                path: "/users",
+                element: <UserManagementPage />,
+            },
+            {
+                path: "/users/new",
+                element: <UserForm />,
+            },
+            {
+                path: "/users/edit/:id",
+                element: <UserForm />,
+            },
         ]
     }
 ]);

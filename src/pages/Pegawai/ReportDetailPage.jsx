@@ -89,7 +89,7 @@ function ReportDetailPage() {
     const navigate = useNavigate();
 
     const isTeknisi = user?.roles?.some(role => role.name === 'teknisi');
-    const dashboardLink = isTeknisi ? "/teknisidashboard" : "/karyawandashboard";
+    const dashboardLink = isTeknisi ? "/teknisidashboard" : "/pegawaidashboard";
 
     const fetchReportDetails = async () => {
         setIsLoading(true);
@@ -216,7 +216,7 @@ function ReportDetailPage() {
                                 <InfoSection icon="📝" title="Deskripsi Kerusakan"><p className="text-sm text-neutral-700 whitespace-pre-wrap bg-neutral-50 p-4 rounded-lg border border-neutral-200">{report.description}</p></InfoSection>
                                 {report.report_media?.length > 0 && <InfoSection icon="📸" title="Bukti Media"><div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">{report.report_media.map((file) => <MediaPreview key={file.id} file={file} />)}</div></InfoSection>}
                                 {report.feedback?.[0] && <InfoSection icon="💬" title="Umpan Balik Teknisi"><p className="text-sm text-neutral-700 whitespace-pre-wrap bg-blue-50 p-4 rounded-lg border border-blue-200">{report?.feedback[0]?.feedback}</p></InfoSection>}
-                                <InfoSection icon="👤" title="Informasi Pelapor"><div className="text-sm grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2"><span className="text-neutral-500">Nama</span> <span className="text-neutral-800 font-medium">{report.user.name}</span><span className="text-neutral-500">ID Karyawan</span> <span className="text-neutral-800">{report.user.employee_id}</span></div></InfoSection>
+                                <InfoSection icon="👤" title="Informasi Pelapor"><div className="text-sm grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2"><span className="text-neutral-500">Nama</span> <span className="text-neutral-800 font-medium">{report.user.name}</span><span className="text-neutral-500">ID pegawai</span> <span className="text-neutral-800">{report.user.employee_id}</span></div></InfoSection>
                             </div>
 
                             {isTeknisi && (

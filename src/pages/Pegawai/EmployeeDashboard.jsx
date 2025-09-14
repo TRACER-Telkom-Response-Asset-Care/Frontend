@@ -131,7 +131,7 @@ function EmployeeDashboard() {
                     <div className="flex items-center gap-3">
                         <img src="/TRACERLOGO.png" alt="Tracer Logo" className="size-9 object-contain" />
                         <div>
-                            <h1 className="text-base font-semibold leading-tight">Dasbor Karyawan</h1>
+                            <h1 className="text-base font-semibold leading-tight">Dasbor pegawai</h1>
                             <p className="text-xs text-neutral-500">Selamat datang, {user?.name || "Pengguna"}!</p>
                         </div>
                     </div>
