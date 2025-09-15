@@ -13,6 +13,7 @@ import AssetTypeManagementPage from "./pages/AssetTypeManagementPage";
 import UserManagementPage from "./pages/Superadmin/UserManagementPage";
 import UserForm from "./pages/Superadmin/UserForm";
 import AssetDetailPage from "./pages/AssetDetailPage";
+import ReportsManagementPage from "./pages/Superadmin/ReportsManagementPage";
 
 const router = createBrowserRouter([
     {
@@ -81,6 +82,10 @@ const router = createBrowserRouter([
             {
                 path: "/users/edit/:id",
                 element: <UserForm />,
+            },
+            {
+                path: "/reports",
+                element: <ReportsManagementPage />,
             },
         ]
     }

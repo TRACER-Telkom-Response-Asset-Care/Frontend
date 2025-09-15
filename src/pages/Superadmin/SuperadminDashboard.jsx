@@ -208,6 +208,7 @@ function SuperAdminDashboard() {
                     <div className="flex items-center gap-4">
                         <Link to="/users" className="text-sm font-medium text-neutral-700 hover:text-red-600">Manajemen Pengguna</Link>
                         <Link to="/assets" className="text-sm font-medium text-neutral-700 hover:text-red-600">Manajemen Aset</Link>
+                        <Link to="/reports" className="text-sm font-medium text-neutral-700 hover:text-red-600">Manajemen Laporan</Link>
                         <button onClick={handleLogout} className="text-sm font-medium text-red-600 hover:underline">Keluar</button>
                     </div>
                 </div>

@@ -89,7 +89,12 @@ function ReportDetailPage() {
     const navigate = useNavigate();
 
     const isTeknisi = user?.roles?.some(role => role.name === 'teknisi');
-    const dashboardLink = isTeknisi ? "/teknisidashboard" : "/pegawaidashboard";
+    let dashboardLink = '/pegawaidashboard';
+    if (user?.roles?.some(role => role.name === 'superadmin')) {
+        dashboardLink = '/reports';
+    } else if (user?.roles?.some(role => role.name === 'teknisi')) {
+        dashboardLink = '/teknisidashboard';
+    }
 
     const fetchReportDetails = async () => {
         setIsLoading(true);
@@ -190,7 +195,7 @@ function ReportDetailPage() {
                 <div className="max-w-7xl mx-auto flex justify-between items-center">
                     <Link to={dashboardLink} className="flex items-center gap-2 text-sm font-medium text-red-600 hover:underline">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path fillRule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" /></svg>
-                        Kembali ke Dasbor
+                        Kembali
                     </Link>
                 </div>
             </header>
