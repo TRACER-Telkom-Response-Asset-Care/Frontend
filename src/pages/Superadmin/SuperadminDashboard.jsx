@@ -69,7 +69,7 @@ const ReportList = ({ reports, title }) => (
 function SuperAdminDashboard() {
     const { user, logout, isInitializing } = useAuth();
     const navigate = useNavigate();
-    const [stats, setStats] = useState({ users: 0, assets: 0, reportsOpen: 0, reportsInProgress: 0, reportsToday: 0 });
+    const [stats, setStats] = useState({ users: 0, assets: 0, reportsOpen: 0, reportsInProgress: 0, reportsToday: 0 , reportsClosed: 0});
     const [chartData, setChartData] = useState([]);
     const [assetRanking, setAssetRanking] = useState([]);
     const [todaysReports, setTodaysReports] = useState([]);
@@ -97,6 +97,8 @@ function SuperAdminDashboard() {
                     assets: assetsRes.data.length,
                     reportsOpen: reports.filter(r => r.status === 'open').length,
                     reportsInProgress: reports.filter(r => r.status === 'in_progress').length,
+                    reportsClosed: reports.filter(r => r.status === 'closed').length,
+                    reportsToday: reports.filter(r => r.created_at.startsWith(today)).length
                 });
   
                 const todayReportsData = reports.filter(r => r.created_at.startsWith(today));
@@ -165,6 +167,7 @@ function SuperAdminDashboard() {
                     <StatCard title="Total Aset" value={stats.assets} icon="💻" color="border-green-500" />
                     <StatCard title="Laporan Terbuka" value={stats.reportsOpen} icon="📂" color="border-yellow-500" />
                     <StatCard title="Laporan Dikerjakan" value={stats.reportsInProgress} icon="🛠️" color="border-orange-500" />
+                    <StatCard title="Laporan Selesai" value={stats.reportsClosed} icon="✅" color="border-green-500" />
                 </div>
 
                 <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
