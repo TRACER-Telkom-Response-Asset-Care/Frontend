@@ -30,7 +30,16 @@ const EmptyState = () => (
     </div>
 );
 
-const AssetTable = ({ assets, onEdit, onDelete }) => {
+// New component for displaying when no search/filter results are found
+const NoResults = () => (
+    <div className="text-center p-10 bg-white rounded-2xl shadow-lg">
+        <h3 className="text-lg font-semibold text-neutral-800">Aset Tidak Ditemukan</h3>
+        <p className="mt-1 text-sm text-neutral-500">Coba ubah kata kunci pencarian atau filter Anda.</p>
+    </div>
+);
+
+
+const AssetTable = ({ assets, onEdit, onDelete, onShowDetails }) => {
     return (
         <div className="bg-white rounded-2xl shadow-lg overflow-x-auto">
             <table className="min-w-full divide-y divide-neutral-200">
@@ -51,6 +60,10 @@ const AssetTable = ({ assets, onEdit, onDelete }) => {
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-500">{asset.asset_type?.name || 'N/A'}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-500">{asset.location}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-4">
+                                {/* New "Details" Button */}
+                                <button onClick={() => onShowDetails(asset.id)} className="text-green-600 hover:text-green-800 hover:underline">
+                                    Detail
+                                </button>
                                 <button onClick={() => onEdit(asset.id)} className="text-blue-600 hover:text-blue-800 hover:underline">
                                     Ubah
                                 </button>
@@ -70,6 +83,8 @@ function AssetManagementPage() {
     const [assets, setAssets] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [filterType, setFilterType] = useState(""); // Stores the asset type name for filtering
     const { user, logout, isInitializing } = useAuth();
     const navigate = useNavigate();
 
@@ -103,6 +118,28 @@ function AssetManagementPage() {
             fetchAssets();
         }
     }, [isInitializing]);
+    
+    // Memoize the list of unique asset types for the filter dropdown
+    const assetTypes = useMemo(() => {
+        const types = new Set(assets.map(asset => asset.asset_type?.name).filter(Boolean));
+        return ["Semua Tipe", ...Array.from(types)];
+    }, [assets]);
+
+    // Memoize the filtered assets to avoid re-calculation on every render
+    const filteredAssets = useMemo(() => {
+        return assets.filter(asset => {
+            const searchTermLower = searchTerm.toLowerCase();
+            const matchesSearch = searchTermLower === '' ||
+                asset.name.toLowerCase().includes(searchTermLower) ||
+                asset.asset_code.toLowerCase().includes(searchTermLower) ||
+                asset.location.toLowerCase().includes(searchTermLower);
+
+            const matchesFilter = filterType === '' || filterType === "Semua Tipe" ||
+                asset.asset_type?.name === filterType;
+
+            return matchesSearch && matchesFilter;
+        });
+    }, [assets, searchTerm, filterType]);
 
     const handleLogout = () => {
         logout();
@@ -113,11 +150,15 @@ function AssetManagementPage() {
         navigate(`/assets/edit/${id}`);
     };
 
+    const handleShowDetails = (id) => {
+        navigate(`/assets/${id}`);
+    }
+
     const handleDelete = async (id) => {
         if (window.confirm("Apakah Anda yakin ingin menghapus aset ini?")) {
             try {
                 await apiClient.delete(`/api/assets/${id}`);
-                fetchAssets();
+                fetchAssets(); // Refetch assets to update the list
             } catch (err) {
                 alert("Gagal menghapus aset. Silakan coba lagi.");
                 console.error("Failed to delete asset:", err);
@@ -135,7 +176,10 @@ function AssetManagementPage() {
         if (assets.length === 0) {
             return <EmptyState />;
         }
-        return <AssetTable assets={assets} onEdit={handleEdit} onDelete={handleDelete} />;
+        if (filteredAssets.length === 0) {
+            return <NoResults />;
+        }
+        return <AssetTable assets={filteredAssets} onEdit={handleEdit} onDelete={handleDelete} onShowDetails={handleShowDetails} />;
     };
 
     return (
@@ -171,6 +215,30 @@ function AssetManagementPage() {
                         </Link>
                     </div>
                 </div>
+
+                {/* New Search and Filter Section */}
+                <div className="mb-6 flex flex-col sm:flex-row gap-4">
+                    <input
+                        type="text"
+                        placeholder="Cari aset (kode, nama, lokasi)..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="flex-grow p-2 border border-neutral-300 rounded-xl focus:ring-1 focus:ring-red-500 focus:border-red-500 shadow-sm transition"
+                    />
+                    <select
+                        value={filterType}
+                        onChange={(e) => setFilterType(e.target.value)}
+                        className="p-2 border border-neutral-300 rounded-xl focus:ring-1 focus:ring-red-500 focus:border-red-500 bg-white shadow-sm transition"
+                        disabled={assets.length === 0} // Disable if no assets
+                    >
+                        {assetTypes.map(type => (
+                            <option key={type} value={type === "Semua Tipe" ? "" : type}>
+                                {type}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
                 {renderContent()}
             </main>
         </div>

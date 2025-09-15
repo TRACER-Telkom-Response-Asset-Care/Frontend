@@ -12,6 +12,7 @@ import AssetForm from "./pages/AssetForm";
 import AssetTypeManagementPage from "./pages/AssetTypeManagementPage";
 import UserManagementPage from "./pages/Superadmin/UserManagementPage";
 import UserForm from "./pages/Superadmin/UserForm";
+import AssetDetailPage from "./pages/AssetDetailPage";
 
 const router = createBrowserRouter([
     {
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
             {
                 path: "/assets",
                 element: <AssetManagementPage />,
+            },
+            {
+                path: "/assets/:id",
+                element: <AssetDetailPage />,
             },
             {
                 path: "/assets/new",
