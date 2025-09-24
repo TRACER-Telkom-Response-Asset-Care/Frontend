@@ -125,19 +125,25 @@ function SuperAdminDashboard() {
                     return reportDate.getMonth() === currentMonth && reportDate.getFullYear() === currentYear;
                 });
                 
-                const assetCounts = monthlyReports.reduce((acc, report) => {
-                    const assetId = report.asset.id;
-                    if (!acc[assetId]) {
-                        acc[assetId] = { ...report.asset, count: 0 };
-                    }
-                    acc[assetId].count++;
-                    return acc;
-                }, {});
+        const assetCounts = monthlyReports.reduce((acc, report) => {
+            if (!report.asset || !report.asset.id) {
+                return acc;
+            }
 
-                const sortedAssets = Object.values(assetCounts)
-                    .sort((a, b) => b.count - a.count)
-                    .slice(0, 5);
-                setAssetRanking(sortedAssets);
+            const assetId = report.asset.id;
+            if (!acc[assetId]) {
+                acc[assetId] = { ...report.asset, count: 0 };
+            }
+            acc[assetId].count++;
+            return acc;
+        }, {});
+
+        const sortedAssets = Object.values(assetCounts)
+            .sort((a, b) => b.count - a.count)
+            .slice(0, 5);
+
+        setAssetRanking(sortedAssets);
+
 
 
             } catch (err) {
