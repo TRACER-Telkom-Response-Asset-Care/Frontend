@@ -413,11 +413,13 @@ function ReportDetailPage() {
                                             <div>
                                                 <label htmlFor="status" className="block text-sm font-medium mb-1.5 text-neutral-700">Ubah Status Laporan</label>
                                                 <div className="flex items-start gap-4">
-                                                    <select id="status" value={newStatus} onChange={(e) => setNewStatus(e.target.value)} className="w-full rounded-xl border-neutral-300 focus:border-red-500 focus:ring-red-500/40 shadow-sm px-2">
-                                                        <option value="open">Open</option>
-                                                        <option value="in_progress">In Progress</option>
-                                                        <option value="closed">Closed</option>
-                                                    </select>
+                                                    {newStatus === 'closed' && (
+                                                        <select id="status" value={newStatus} onChange={(e) => setNewStatus(e.target.value)} className="w-full rounded-xl border-neutral-300 focus:border-red-500 focus:ring-red-500/40 shadow-sm px-2" disabled>
+                                                            <option value="open">Open</option>
+                                                            <option value="in_progress">In Progress</option>
+                                                            <option value="closed">Closed</option>
+                                                        </select>
+                                                    )}
                                                     <button type="submit" disabled={isSaveDisabled} className="bg-red-600 text-white font-medium py-2.5 px-6 rounded-xl active:scale-[.99] disabled:bg-red-300 disabled:cursor-not-allowed transition-colors whitespace-nowrap">
                                                         {isUpdating ? "Menyimpan..." : "Simpan"}
                                                     </button>

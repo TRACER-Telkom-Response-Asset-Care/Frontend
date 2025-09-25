@@ -82,7 +82,7 @@ function TeknisiDashboard() {
     const [reports, setReports] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [filterStatus, setFilterStatus] = useState("all");
+    const [filterStatus, setFilterStatus] = useState("open");
     const [searchTerm, setSearchTerm] = useState("");
     const { user, logout, isInitializing } = useAuth();
     const navigate = useNavigate();
@@ -147,7 +147,7 @@ function TeknisiDashboard() {
                             className="w-full md:w-1/3 rounded-xl border-neutral-300 focus:border-red-500 focus:ring-red-500/40 shadow-sm px-4"
                         />
                         <div className="flex items-center gap-2">
-                            {['all', 'open', 'in_progress', 'closed'].map(status => (
+                            {['open', 'in_progress', 'closed'].map(status => (
                                 <button
                                     key={status}
                                     onClick={() => setFilterStatus(status)}
