@@ -186,7 +186,7 @@ function CreateReportPage() {
                 headers: { "Content-Type": "multipart/form-data" },
             });
             setAlert({ message: "Laporan berhasil dikirim! Mengarahkan ke dasbor...", type: "success" });
-            setTimeout(() => navigate("/pegawaidashboard"), 2000);
+            setTimeout(() => navigate("/pegawaidashboard"), 500);
         } catch (error) {
             const mediaError = error.response?.data?.errors 
                 ? Object.keys(error.response.data.errors).find(key => key.startsWith('media.'))
