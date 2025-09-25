@@ -295,9 +295,8 @@ function ReportDetailPage() {
             }
 
             setAlert({ message: "Laporan berhasil diperbarui!", type: "success" });
-            fetchReportDetails();
-            setFeedbackText('');
-            setNoFeedback(false);
+            fetchReportDetails(); // Re-fetch to get latest state
+            // Resetting form states is handled by re-fetching now
         } catch (err) {
             setAlert({ message: "Gagal memperbarui laporan.", type: "error" });
             console.error("Failed to update report:", err);
@@ -306,7 +305,10 @@ function ReportDetailPage() {
         }
     };
 
-    const isSaveDisabled = isUpdating || (newStatus === 'closed' && !feedbackText && !noFeedback);
+    // Helper variable to check if the report is permanently closed
+    const isPermanentlyClosed = report?.status === 'closed' && report?.feedback?.length > 0;
+
+    const isSaveDisabled = isUpdating || isPermanentlyClosed || (newStatus === 'closed' && !feedbackText.trim() && !noFeedback);
 
     const getStatusChip = (status) => {
         switch (status?.toLowerCase()) {
@@ -409,24 +411,21 @@ function ReportDetailPage() {
                                     <div className="bg-white rounded-2xl shadow-lg p-6 sm:p-8 print:hidden">
                                         <h3 className="text-lg font-bold text-neutral-800 flex items-center gap-3">⚙️ Panel Aksi Teknisi</h3>
                                         <form onSubmit={handleStatusUpdate} className="mt-4 border-t border-neutral-200 pt-4 space-y-4">
-                                            {alert.message && <div className={`rounded-md border text-sm p-3 ${alert.type === 'success' ? 'border-green-200 bg-green-50 text-green-700' : 'border-red-200 bg-red-50 text-red-700'}`}>{alert.message}</div>}
+                                            <Alert message={alert.message} type={alert.type} />
                                             <div>
                                                 <label htmlFor="status" className="block text-sm font-medium mb-1.5 text-neutral-700">Ubah Status Laporan</label>
                                                 <div className="flex items-start gap-4">
-                                                    {newStatus === 'closed' && (
-                                                        <select id="status" value={newStatus} onChange={(e) => setNewStatus(e.target.value)} className="w-full rounded-xl border-neutral-300 focus:border-red-500 focus:ring-red-500/40 shadow-sm px-2" disabled>
-                                                            <option value="open">Open</option>
-                                                            <option value="in_progress">In Progress</option>
-                                                            <option value="closed">Closed</option>
-                                                        </select>
-                                                    )}
-                                                    {newStatus !== 'closed' && (
-                                                        <select id="status" value={newStatus} onChange={(e) => setNewStatus(e.target.value)} className="w-full rounded-xl border-neutral-300 focus:border-red-500 focus:ring-red-500/40 shadow-sm px-2">
-                                                            <option value="open">Open</option>
-                                                            <option value="in_progress">In Progress</option>
-                                                            <option value="closed">Closed</option>
-                                                        </select>
-                                                    )}
+                                                    <select 
+                                                        id="status" 
+                                                        value={newStatus} 
+                                                        onChange={(e) => setNewStatus(e.target.value)} 
+                                                        className="w-full rounded-xl border-neutral-300 focus:border-red-500 focus:ring-red-500/40 shadow-sm px-2 disabled:bg-neutral-100 disabled:cursor-not-allowed"
+                                                        disabled={isPermanentlyClosed}
+                                                    >
+                                                        <option value="open">Open</option>
+                                                        <option value="in_progress">In Progress</option>
+                                                        <option value="closed">Closed</option>
+                                                    </select>
                                                     <button type="submit" disabled={isSaveDisabled} className="bg-red-600 text-white font-medium py-2.5 px-6 rounded-xl active:scale-[.99] disabled:bg-red-300 disabled:cursor-not-allowed transition-colors whitespace-nowrap">
                                                         {isUpdating ? "Menyimpan..." : "Simpan"}
                                                     </button>
@@ -435,9 +434,24 @@ function ReportDetailPage() {
                                             {newStatus === 'closed' && (
                                                 <div className="space-y-3 pt-3 border-t border-dashed">
                                                     <label htmlFor="feedback" className="block text-sm font-medium text-neutral-700">Umpan Balik (Wajib diisi jika status Closed)</label>
-                                                    <textarea id="feedback" rows="3" placeholder="Contoh: Perbaikan selesai, komponen X telah diganti." value={feedbackText} onChange={(e) => setFeedbackText(e.target.value)} disabled={noFeedback} className="w-full rounded-xl border-neutral-300 focus:border-red-500 focus:ring-red-500/40 shadow-sm disabled:bg-neutral-100 p-2"></textarea>
+                                                    <textarea 
+                                                        id="feedback" 
+                                                        rows="3" 
+                                                        placeholder="Contoh: Perbaikan selesai, komponen X telah diganti." 
+                                                        value={feedbackText} 
+                                                        onChange={(e) => setFeedbackText(e.target.value)} 
+                                                        disabled={noFeedback || isPermanentlyClosed} 
+                                                        className="w-full rounded-xl border-neutral-300 focus:border-red-500 focus:ring-red-500/40 shadow-sm disabled:bg-neutral-100 p-2 disabled:cursor-not-allowed"
+                                                    ></textarea>
                                                     <div className="flex items-center gap-2">
-                                                        <input id="no-feedback" type="checkbox" checked={noFeedback} onChange={(e) => setNoFeedback(e.target.checked)} className="h-4 w-4 rounded border-neutral-300 text-red-600 focus:ring-red-500" />
+                                                        <input 
+                                                            id="no-feedback" 
+                                                            type="checkbox" 
+                                                            checked={noFeedback} 
+                                                            onChange={(e) => setNoFeedback(e.target.checked)} 
+                                                            disabled={isPermanentlyClosed}
+                                                            className="h-4 w-4 rounded border-neutral-300 text-red-600 focus:ring-red-500 disabled:bg-neutral-200 disabled:cursor-not-allowed" 
+                                                        />
                                                         <label htmlFor="no-feedback" className="text-sm text-neutral-600">Tidak ada umpan balik khusus</label>
                                                     </div>
                                                 </div>
