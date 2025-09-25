@@ -44,7 +44,7 @@ const Modal = ({ title, children, onClose }) => (
     </div>
 );
 
-// --- Main Page Component ---
+
 
 function AssetTypeManagementPage() {
     const [assetTypes, setAssetTypes] = useState([]);
@@ -55,8 +55,8 @@ function AssetTypeManagementPage() {
 
     // Modal State
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [modalMode, setModalMode] = useState('add'); // 'add' or 'edit'
-    const [currentType, setCurrentType] = useState(null); // AssetType being edited
+    const [modalMode, setModalMode] = useState('add'); 
+    const [currentType, setCurrentType] = useState(null); 
     const [typeName, setTypeName] = useState('');
     const [modalError, setModalError] = useState('');
     const [isSaving, setIsSaving] = useState(false);
