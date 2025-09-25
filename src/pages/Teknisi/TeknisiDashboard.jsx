@@ -61,7 +61,7 @@ const ReportTable = ({ reports }) => {
                     {reports.map((report) => (
                         <tr key={report.id} className="hover:bg-neutral-50 transition-colors">
                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-red-600">{report.report_code}</td>
-                            {/* <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-800 font-medium">{report.asset.name}</td> */}
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-800 font-medium">{report.asset.name}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-500">{report.user.name}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-500">{new Date(report.created_at).toLocaleDateString("id-ID", { year: 'numeric', month: 'short', day: 'numeric' })}</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm">
