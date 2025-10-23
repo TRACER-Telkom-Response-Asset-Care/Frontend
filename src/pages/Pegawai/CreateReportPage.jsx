@@ -207,7 +207,7 @@ function CreateReportPage() {
         <div className="min-h-screen bg-neutral-100 text-neutral-900">
             <header className="px-4 py-3 bg-white/80 backdrop-blur border-b border-neutral-200 sticky top-0 z-20 shadow-sm">
                 <div className="max-w-3xl mx-auto flex items-center gap-3">
-                    <img src="/src/assets/TRACERLOGO.png" alt="Tracer Logo" className="size-9 object-contain" />
+                    <img src="https://pub-55d222eaa9e5495893ad907ce5296712.r2.dev/logo/TRACERLOGO.png" alt="Tracer Logo" className="size-9 object-contain" />
                     <h1 className="text-base font-semibold leading-tight tracking-tight">Buat Laporan Kerusakan Baru</h1>
                 </div>
             </header>
